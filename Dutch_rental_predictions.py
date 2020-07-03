@@ -36,6 +36,8 @@ user_df = user_input_features()
 
 st.subheader('Rental parameters')
 
+st.write(user_df)
+
 data_source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/final_ml_data.csv'
 df=pd.read_csv(data_source)
 
