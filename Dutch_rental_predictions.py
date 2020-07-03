@@ -1,0 +1,88 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import streamlit as st
+
+# ML libraries
+from sklearn.model_selection import train_test_split
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, accuracy_score
+from sklearn.model_selection import cross_val_score
+
+st.write("""
+# Simple Rental Prediction App
+This app predicts the rental price of a property in the Netherlands!
+All data is supplied via kamernet.nl
+""")
+
+st.sidebar.header('Rental Parameters')
+
+def user_input_features():
+    square_meters = st.sidebar.slider('Area in square meters', 6, 675, 56)
+    latitude = st.sidebar.slider('Latitude', 50.770041, 53.333967, 51)
+    longitude = st.sidebar.slider('Longitude', 3.554188, 7.036756, 5)
+    p_type = st.sidebar.selectbox('Apartment',['Room', 'Studio', 'Apartment', 'Anti-squat', 'Student residence'])
+    data = {'square_meters': square_meters,
+            'latitude': latitude,
+            'longitude': longitude,
+            'p_type': p_type}
+    features = pd.DataFrame(data, index=[0])
+    return features
+
+user_df = user_input_features()
+
+st.subheader('Rental parameters')
+st.write(df)
+
+data_source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/properties-trim.json'
+df=pd.read_json(data_source, lines=True)
+
+# Remove rows with missing target, separating target from predictors
+df.dropna(axis=0, subset=['rent'], inplace=True)
+y = df.rent
+X = df[['areaSqm','longitude','latitude','propertyType']]
+
+categorical_cols = ['propertyType']
+
+numerical_cols = ['areaSqm','longitude','latitude']
+
+X_train, X_valid, y_train, y_valid = train_test_split(X,y, train_size = .6, test_size=.4, random_state=42)
+
+
+# Preprocessing for numerical data
+numerical_transformer = SimpleImputer(strategy='median')
+
+# Preprocessing for categorical data
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('label', OneHotEncoder(handle_unknown='ignore'))])
+
+# Grouping numeric and categorical preprocessing 
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_cols),
+        ('cat', categorical_transformer, categorical_cols)])
+
+# Define model
+model = XGBRegressor(n_estimators=1100, learning_rate=0.05)
+
+# Pipeline for processing the data and defining the model
+clf = Pipeline(steps=[
+('preprocessor', preprocessor),
+('model', model)])
+
+clf.fit(X_train,y_train)
+predictions = clf.predict(X_valid)
+mae = mean_absolute_error(y_valid, predictions)
+clf.fit(X,y)
+    
+prediction = clf.predict(df)
+
+st.subheader('Rental prediction')
+st.write(prediction)
+
+st.subheader('Error range')
+st.write(mae)
+
