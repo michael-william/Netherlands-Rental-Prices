@@ -39,39 +39,41 @@ st.subheader('Rental parameters')
 data_source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/final_ml_data.csv'
 df=pd.read_csv(data_source)
 
+# Remove rows with missing target, separating target from predictors
+df.dropna(axis=0, subset=['rent'], inplace=True)
 y = df.rent
-X = df.drop('rent', axis=1)
+X = df[['areaSqm','longitude','latitude','propertyType']]
 
-#categorical_cols = ['propertyType']
+categorical_cols = ['propertyType']
 
-#numerical_cols = ['areaSqm','longitude','latitude']
+numerical_cols = ['areaSqm','longitude','latitude']
 
 # Preprocessing for numerical data
-#numerical_transformer = SimpleImputer(strategy='median')
+numerical_transformer = SimpleImputer(strategy='median')
 
 # Preprocessing for categorical data
-#categorical_transformer = Pipeline(steps=[
-    #('imputer', SimpleImputer(strategy='most_frequent')),
-    #('label', OneHotEncoder(handle_unknown='ignore'))])
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='most_frequent')),
+    ('label', OneHotEncoder(handle_unknown='ignore'))])
 
 # Grouping numeric and categorical preprocessing 
-#preprocessor = ColumnTransformer(
-    #transformers=[
-     #   ('num', numerical_transformer, numerical_cols),
-      #  ('cat', categorical_transformer, categorical_cols)])
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numerical_transformer, numerical_cols),
+        ('cat', categorical_transformer, categorical_cols)])
 
 # Define model
 model = XGBRegressor(n_estimators=1100, learning_rate=0.05)
 
 # Pipeline for processing the data and defining the model
-#clf = Pipeline(steps=[
-#('preprocessor', preprocessor),
-#('model', model)])
+clf = Pipeline(steps=[
+('preprocessor', preprocessor),
+('model', model)])
 
-model.fit(X,y)
+clf.fit(X,y)
 mae = '€'+str(111)
     
-prediction = '€'+str(round(model.predict(user_df)[0],0))
+prediction = '€'+str(round(clf.predict(user_df)[0],0))
 
 st.subheader('Rental prediction')
 st.write(prediction)
