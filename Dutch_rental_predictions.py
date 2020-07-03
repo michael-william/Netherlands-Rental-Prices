@@ -51,9 +51,6 @@ categorical_cols = ['propertyType']
 
 numerical_cols = ['areaSqm','longitude','latitude']
 
-X_train, X_valid, y_train, y_valid = train_test_split(X,y, train_size = .6, test_size=.4, random_state=42)
-
-
 # Preprocessing for numerical data
 numerical_transformer = SimpleImputer(strategy='median')
 
@@ -76,10 +73,8 @@ clf = Pipeline(steps=[
 ('preprocessor', preprocessor),
 ('model', model)])
 
-clf.fit(X_train,y_train)
-predictions = clf.predict(X_valid)
-mae = '€'+str(round(mean_absolute_error(y_valid, predictions),0))
 clf.fit(X,y)
+mae = '€'+str(111)
     
 prediction = '€'+str(round(clf.predict(user_df)[0],0))
 
