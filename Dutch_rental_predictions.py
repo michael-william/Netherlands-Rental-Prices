@@ -40,7 +40,7 @@ if st.sidebar.button('Submit'):
     st.write(user_df)
 
 data_source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/final_ml_data.csv'
-df=pd.read_csv(data_source)
+df=pd.read_csv(data_source, index=True)
 
 y = df.rent
 X = df.drop('rent', axis=1)
