@@ -15,7 +15,8 @@ from sklearn.model_selection import cross_val_score
 st.write("""
 # Simple Rental Prediction App
 This app predicts the rental price of a property in the Netherlands!
-All data is supplied via kamernet.nl
+All data is supplied via kamernet.nl. The app runs an XGBRegressor
+model to predict the price of a property basedon user inputs.
 """)
 
 st.sidebar.header('Rental Parameters')
