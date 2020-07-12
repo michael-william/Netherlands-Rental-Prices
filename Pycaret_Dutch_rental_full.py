@@ -17,8 +17,8 @@ import plotly.graph_objs as go
 st.write("""
 # Simple Rental Prediction App
 This app predicts the rental price of a property in the Netherlands!
-All data is supplied via kamernet.nl. The app was developed using PyCaret with a chosen Random Forrest
-model to predict the price of a property based on user inputs.
+All data is supplied via kamernet.nl with active properties listed for rent from July 2019 - March 2020. 
+The app was developed using PyCaret with a Random Forrest model to predict the price of a property based on user inputs.
 """)
 @st.cache(allow_output_mutation=True)
 def load_data():
@@ -109,6 +109,7 @@ def main():
         st.write(temp[['areaSqm','rent','euro_per_sqm', 'propertyType', 'shared']])
         st.write('Average rent of other nearby listings: €'+ str(np.round(temp.rent.mean(),2)))
         st.write('Average euro per sqm of other nearby listings: €'+str(np.round(temp.euro_per_sqm.mean(),2)))
+    st.subheader('')
 
 if __name__ == "__main__":
     main()
