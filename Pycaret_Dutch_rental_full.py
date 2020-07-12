@@ -11,10 +11,8 @@ from pycaret.regression import *
 # Visualizations
 from matplotlib import pyplot as plt
 import seaborn as sns
-import missingno as msno
 import chart_studio.plotly as pl
 import plotly.graph_objs as go
-from plotly.offline import iplot, init_notebook_mode
 
 st.write("""
 # Simple Rental Prediction App
@@ -24,7 +22,7 @@ model to predict the price of a property based on user inputs.
 """)
 @st.cache(allow_output_mutation=True)
 def load_data():
-    source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/ml_data.csv'
+    source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/data/ml_data.csv'
     data=pd.read_csv(source, index_col=0)
     return data
 
@@ -110,7 +108,7 @@ def main():
         temp_df()
         st.write(temp[['areaSqm','rent','euro_per_sqm', 'propertyType', 'shared']])
         st.write('Average rent of other nearby listings: €'+ str(np.round(temp.rent.mean(),2)))
-        st.write('Average euro per sqm of other nearby listings: €'+str(int(np.round(temp.euro_per_sqm.mean(),2))))
+        st.write('Average euro per sqm of other nearby listings: €'+str(np.round(temp.euro_per_sqm.mean(),2)))
 
 if __name__ == "__main__":
     main()
