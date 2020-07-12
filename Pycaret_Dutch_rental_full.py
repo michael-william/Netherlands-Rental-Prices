@@ -24,7 +24,7 @@ model to predict the price of a property based on user inputs.
 """)
 @st.cache(allow_output_mutation=True)
 def load_data():
-    source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/ml_data.csv'
+    source = 'https://github.com/michael-william/Netherlands-Rental-Prices/raw/master/data/ml_data.csv'
     data=pd.read_csv(source, index_col=0)
     return data
 
