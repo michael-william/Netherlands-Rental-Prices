@@ -41,7 +41,7 @@ def run_model():
 def user_input_features():
         square_meters = st.sidebar.slider('Area in square meters', 6, 675, 56)
         locator = Nominatim(user_agent='myGeocoder')
-        address = st.sidebar.text_input("Address of property", "Spaarndammerstraat 35 1013 SR")
+        address = st.sidebar.text_input("Address of property", "Spaarndammerstraat 35 Amsterdam")
         location = locator.geocode(address)
         longitude = np.round(location.longitude,4)
         latitude = np.round(location.latitude,4)
@@ -89,7 +89,7 @@ def main():
         st.subheader('Monthly rental prediction')
         st.write(final_prediction)
         st.write(final_per_sqm)
-        st.write('ML model error range: +/- '+'€'+str(105)+' monthly rent')
+        #st.write('ML model error range: +/- '+'€'+str(105)+' monthly rent')
 
     
     def temp_df():
