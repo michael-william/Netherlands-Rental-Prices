@@ -43,8 +43,8 @@ def user_input_features():
         locator = Nominatim(user_agent='myGeocoder')
         address = st.sidebar.text_input("Address of property", "Spaarndammerstraat 35 1013 SR")
         location = locator.geocode(address)
-        longitude = round(location.longitude,4)
-        latitude = round(location.latitude,4)
+        longitude = np.round(location.longitude,4)
+        latitude = np.round(location.latitude,4)
         st.sidebar.text('City: '+(location.raw['display_name'].split(',')[3]))
         st.sidebar.text('Longitude: '+str(longitude))
         st.sidebar.text('Latitude: '+str(latitude))
@@ -61,7 +61,7 @@ def user_input_features():
         return features
 
 
-with st.spinner("Creating Random Forrest model..about 30 seconds :-)"):
+with st.spinner("Creating Random Forrest model..this sould take about 30 seconds :-)"):
     model = run_model()
 st.success('Model creation complete!')
 
