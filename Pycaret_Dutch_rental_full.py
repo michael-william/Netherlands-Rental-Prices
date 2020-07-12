@@ -89,7 +89,7 @@ def main():
         st.subheader('Monthly rental prediction')
         st.write(final_prediction)
         st.write(final_per_sqm)
-        #st.write('ML model error range: +/- '+'€'+str(105)+' monthly rent')
+        st.write('ML model error range: +/- '+'€'+str(108)+' monthly rent')
 
     
     def temp_df():
