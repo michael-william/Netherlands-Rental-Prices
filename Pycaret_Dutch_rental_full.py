@@ -41,7 +41,7 @@ def run_model():
 def user_input_features():
         square_meters = st.sidebar.slider('Area in square meters', 6, 675, 56)
         locator = Nominatim(user_agent='myGeocoder')
-        address = st.sidebar.text_input("Address of property", "Spaarndammerstraat 35 1013 SR")
+        address = st.sidebar.text_input("Address of property", "Spaarndammerstraat 35 Amsterdam")
         location = locator.geocode(address)
         longitude = np.round(location.longitude,4)
         latitude = np.round(location.latitude,4)
